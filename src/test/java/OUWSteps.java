@@ -116,6 +116,91 @@ public class OUWSteps extends Steps {
         page.noResultsAreFound();
     }
 
+    @Given("I am on the travelplus quotation page")
+    public void givenTravelplusPage() {
+        page.openTravelPlusPage();
+    }
+
+    @Then("I fill the first page with valid information")
+    public void thenFillFirstPage() {
+        page.fillFirstPage();
+    }
+
+    @Then("I enter @ in the users name")
+    public void thenEnterAtInUsersName() {
+        page.enterInUsersName("@");
+    }
+
+    @Then("I enter a normal surname")
+    public void thenEnterNormalSurname() {
+        page.enterInUsersSurname("Pähkel");
+    }
+
+    @Then("I enter a normal age")
+    public void thenEnterNormalAge() {
+        page.enterInUsersAge("18");
+    }
+
+    @Then("I click Get a Quote")
+    public void thenClickGetQuote() {
+        page.clickGetQuote();
+    }
+
+    @Then("I should see the error message")
+    public void thenErrorMessage() {
+        page.errorMessage();
+    }
+
+    @Then("I enter a normal firstname")
+    public void thenEnterNormalFirstname() {
+        page.enterInUsersName("Paul");
+    }
+
+    @Then("I enter a invalid age")
+    public void thenEnterInvalidAge() {
+        page.enterInUsersAge("9999e9999");
+    }
+
+    @Then("I enter a sql injection")
+    public void thenEnterSqlInjection() {
+        page.enterInUsersName("' OR 1=1;");
+    }
+
+    @Then("I enter a firstname with an emoji")
+    public void thenEnterEmoji() {
+        page.enterInUsersName("\uD83E\uDDCD");
+    }
+
+    @Then("I enter a firstname with an symbol")
+    public void thenEnterSymbol() {
+        page.enterInUsersName("#");
+    }
+
+    @Then("I should be on the welcome page")
+    public void thenWelcomePage() {
+        page.welcomePage();
+    }
+
+    @When("I go to a protected route")
+    public void whenGoToProtectedRoute() {
+        page.goToProtectedRoute();
+    }
+
+    @Then("I redirected to the welcome page")
+    public void thenRedirectedToWelcomePage() {
+        page.welcomePage();
+    }
+
+    @Then("I search for a policy by id")
+    public void thenSearchForPolicyById() {
+        page.searchForPolicyById();
+    }
+
+    @Then("I will see that policy in the search results")
+    public void thenSearchForPolicyByIdResult() {
+        page.searchForPolicyByIdResult();
+    }
+
     @AfterScenario
     public void afterScenario() {
         driver.quit();

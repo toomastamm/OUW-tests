@@ -1,3 +1,4 @@
+import org.jbehave.core.annotations.Then;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,9 @@ public class OUWPage {
     private String DEFAULT_URL = "http://65.108.50.84:8080/";
     private String SANDPIT_EXTENSION = "web/ou/sandpit";
     private String POLICIES_EXTENSION = "web/ou/policies";
+    private String PROTECTED_ROUTE_EXTENSION = "web/ou/sandpit";
+    private String TRAVEL_PLUS_EXTENSION = "/web/travelplus/get-a-quote";
+
     private WebDriver driver;
     private WebElement element;
 
@@ -149,5 +153,63 @@ public class OUWPage {
         element = driver.findElement(By.id("gui-POLICYSEARCH-advancedsearch-results"));
         String bodyText = element.getText();
         Assert.assertTrue("No results found!", bodyText.contains("No Results Found"));
+    }
+
+    public void openTravelPlusPage() {
+        driver.get(DEFAULT_URL + TRAVEL_PLUS_EXTENSION);
+    }
+
+    public void fillFirstPage() {
+        Select select = new Select(driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div/div[1]/div[2]/div/div[2]/select")));
+        select.selectByValue("i18n_policy_type_single_trip_option");
+
+        select = new Select(driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div/div[3]/div[2]/div/div[2]/select")));
+        select.selectByValue("i18n_destination_europe_option");
+
+        select = new Select(driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div/div[4]/div[2]/div/div[2]/select")));
+        select.selectByValue("i18n_party_type_individual_option");
+
+        element = driver.findElement(By.xpath("//*[@id=\"Next\"]"));
+        element.click();
+    }
+
+    public void enterInUsersName(String toEnter) {
+        element = driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div[2]/div/div/div[2]/div[1]/div/div[2]/input"));
+        element.sendKeys(toEnter);
+    }
+
+    public void enterInUsersSurname(String toEnter) {
+        element = driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div[2]/div/div/div[2]/div[2]/div/div[2]/input"));
+        element.sendKeys(toEnter);
+    }
+
+    public void enterInUsersAge(String s) {
+        element = driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div[2]/div/div/div[2]/div[3]/div/div[2]/input"));
+        element.sendKeys(s);
+    }
+
+    public void errorMessage() {
+        element = driver.findElement(By.xpath("/html/body/div[5]/div/div/div/div/div/div[2]/section/div/div/div/div/div/div/form/div[1]/div[2]/div/div/div[2]/div[4]/div/div[2]/div"));
+        String bodyText = element.getText();
+        Assert.assertTrue("Error message not found!", bodyText.contains("Please enter a valid first name"));
+    }
+
+    public void welcomePage() {
+        Assert.assertTrue("Welcome page not found!", driver.getCurrentUrl().contains("/welcome"));
+    }
+
+    public void goToProtectedRoute() {
+        driver.get(DEFAULT_URL + PROTECTED_ROUTE_EXTENSION);
+    }
+
+    public void searchForPolicyById() {
+        element = driver.findElements(By.tagName("input")).get(3);
+        element.sendKeys("16280");
+    }
+
+    public void searchForPolicyByIdResult() {
+        element = driver.findElement(By.id("gui-POLICYSEARCH-advancedsearch-results"));
+        String bodyText = element.getText();
+        Assert.assertTrue("ID not found!", bodyText.contains("16280"));
     }
 }
